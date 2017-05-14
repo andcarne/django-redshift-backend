@@ -23,8 +23,9 @@ from django.db.backends.postgresql_psycopg2.base import (
     DatabaseSchemaEditor as BasePGDatabaseSchemaEditor,
     DatabaseClient,
     DatabaseCreation as BasePGDatabaseCreation,
-    DatabaseIntrospection,
 )
+
+from .introspection import DatabaseIntrospection
 
 logger = logging.getLogger('django.db.backends')
 
@@ -477,6 +478,7 @@ class DatabaseWrapper(BasePGDatabaseWrapper):
 
     data_types = deepcopy(BasePGDatabaseWrapper.data_types)
     data_types.update(redshift_data_types)
+    introspection_class = DatabaseIntrospection
 
     def __init__(self, *args, **kwargs):
         super(DatabaseWrapper, self).__init__(*args, **kwargs)
